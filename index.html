@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wissem & Mousaab - Invitation de Mariage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="envelope-stage" id="envelopeStage">
+        <div class="envelope-scene" id="envelopeScene">
+            <div class="envelope-wrapper">
+                <div class="envelope-body"></div>
+                
+                <div class="envelope-fold-left"></div>
+                <div class="envelope-fold-right"></div>
+                <div class="envelope-fold-bottom" id="envelopeFoldBottom"></div>
+                <div class="envelope-flap" id="envelopeFlap"></div>
+                
+                <div class="wax-seal-container" id="waxSeal">
+                    <img src="sceau.png" alt="Sceau" class="wax-seal-img" 
+                         onerror="this.style.display='none'; document.getElementById('waxSealFallback').style.display='block';">
+                    
+                    <div id="waxSealFallback" class="wax-seal-fallback">
+                        <svg viewBox="0 0 200 200" style="width:100%; height:100%;">
+                            <defs>
+                                <radialGradient id="waxGrad" cx="35%" cy="35%" r="65%">
+                                    <stop offset="0%" style="stop-color:#c62828"/>
+                                    <stop offset="40%" style="stop-color:#8b0000"/>
+                                    <stop offset="100%" style="stop-color:#3c0000"/>
+                                </radialGradient>
+                                <filter id="waxShadow">
+                                    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+                                </filter>
+                            </defs>
+                            <ellipse cx="100" cy="105" rx="95" ry="90" fill="url(#waxGrad)" filter="url(#waxShadow)"/>
+                            <ellipse cx="100" cy="100" rx="88" ry="83" fill="#a52a2a" opacity="0.6"/>
+                            <ellipse cx="100" cy="100" rx="80" ry="75" fill="none" stroke="#5c0000" stroke-width="2" opacity="0.5"/>
+                            <text x="100" y="118" font-family="Playfair Display" font-size="50" font-style="italic" 
+                                  fill="#2d0000" text-anchor="middle" font-weight="700">W&M</text>
+                            <circle cx="65" cy="75" r="8" fill="#d4a574" opacity="0.4"/>
+                            <circle cx="140" cy="130" r="5" fill="#d4a574" opacity="0.3"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="wax-particles" id="waxParticles"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-site" id="mainSite">
+        <section class="hero" id="accueil">
+            <svg class="floral-deco floral-tl" viewBox="0 0 200 200" fill="none">
+                <path d="M20 180 Q50 130 100 100 Q150 70 180 20" stroke="#c9a962" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <circle cx="40" cy="160" r="18" fill="#e8d5d5"/>
+                <circle cx="40" cy="160" r="10" fill="#fff"/>
+                <circle cx="80" cy="120" r="22" fill="#d4b5b5"/>
+                <circle cx="80" cy="120" r="12" fill="#fff"/>
+                <circle cx="140" cy="60" r="16" fill="#e8d5d5"/>
+                <circle cx="140" cy="60" r="9" fill="#fff"/>
+                <circle cx="40" cy="160" r="4" fill="#c9a962"/>
+                <circle cx="80" cy="120" r="5" fill="#c9a962"/>
+                <circle cx="140" cy="60" r="4" fill="#c9a962"/>
+            </svg>
+            
+            <svg class="floral-deco floral-tr" viewBox="0 0 200 200" fill="none">
+                <path d="M20 180 Q50 130 100 100 Q150 70 180 20" stroke="#c9a962" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <circle cx="40" cy="160" r="18" fill="#e8d5d5"/>
+                <circle cx="40" cy="160" r="10" fill="#fff"/>
+                <circle cx="80" cy="120" r="22" fill="#d4b5b5"/>
+                <circle cx="80" cy="120" r="12" fill="#fff"/>
+                <circle cx="140" cy="60" r="4" fill="#c9a962"/>
+            </svg>
+            
+            <p class="bismillah reveal-element">بسم الله الرحمن الرحيم</p>
+            <p class="subtitle reveal-element">Au nom de l'amour et du bonheur</p>
+            <p class="family-name reveal-element">La Famille Fekir</p>
+            <p class="invitation-text reveal-element">a l'honneur de vous inviter au mariage de leur chère fille</p>
+            
+            <div class="names-container reveal-element">
+                <span class="name-main">Wissem</span>
+                <span class="name-separator">avec</span>
+                <span class="name-main">Mousaab</span>
+            </div>
+            
+            <p class="tagline reveal-element">Deux cœurs, une promesse,<br>une nouvelle histoire...</p>
+            
+            <svg class="floral-deco floral-bl" viewBox="0 0 200 200" fill="none">
+                <path d="M20 20 Q50 70 100 100 Q150 130 180 180" stroke="#c9a962" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <circle cx="40" cy="40" r="18" fill="#e8d5d5"/>
+                <circle cx="80" cy="80" r="22" fill="#d4b5b5"/>
+                <circle cx="140" cy="140" r="16" fill="#e8d5d5"/>
+            </svg>
+            
+            <svg class="floral-deco floral-br" viewBox="0 0 200 200" fill="none">
+                <circle cx="60" cy="60" r="20" fill="#d4b5b5"/>
+                <circle cx="120" cy="120" r="18" fill="#e8d5d5"/>
+            </svg>
+        </section>
+        
+        <section class="details-section" id="details">
+            <div class="section-container">
+                <div class="details-grid">
+                    <div class="detail-card reveal-element">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+                        </div>
+                        <p class="detail-label">Date</p>
+                        <p class="detail-value">06 Octobre 2026</p>
+                        <p class="detail-subvalue">Mardi</p>
+                    </div>
+                    
+                    <div class="detail-card reveal-element">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        </div>
+                        <p class="detail-label">Heure</p>
+                        <p class="detail-value">14:00</p>
+                        <p class="detail-subvalue">À partir de</p>
+                    </div>
+                    
+                    <div class="detail-card reveal-element">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        </div>
+                        <p class="detail-label">Lieu</p>
+                        <p class="detail-value" id="lieuNom">Salle Palais Souheib</p>
+                        <p class="detail-subvalue" id="lieuVille">Blida, Algérie</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="venue-section" id="lieu">
+            <div class="section-container">
+                <h2 class="section-title reveal-element">Le Lieu de Réception</h2>
+                
+                <div class="heart-map-container reveal-element">
+                    <div class="heart-map-wrapper">
+                        <iframe 
+                            id="mapFrame"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; filter: saturate(0.8) contrast(1.1);"
+                            loading="lazy" 
+                            allowfullscreen 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.1234567890123!2d2.8300!3d36.4800!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDI4JzQ4LjAiTiAywrA0OSc0OC4wIkU!5e0!3m2!1sfr!2sdz!4v1234567890123!5m2!1sfr!2sdz">
+                        </iframe>
+                        <div class="heart-map-overlay"></div>
+                        <div class="map-marker">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-info-below reveal-element">
+                    <p class="venue-name" id="infoLieuNom">Salle Palais Souheib</p>
+                    <p class="venue-location" id="infoLieuVille">Blida, Algérie</p>
+                    <p class="venue-address" id="infoLieuAdresse">Route de Soumaa, Blida 09000</p>
+                    <a href="#" id="directionsLink" target="_blank" class="directions-btn">
+                        <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+                        Itinéraire
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="rsvp-section" id="rsvp">
+            <div class="section-container">
+                <div class="rsvp-header reveal-element">
+                    <h2 class="rsvp-title">Confirmez votre présence</h2>
+                    <p class="rsvp-subtitle">Merci de remplir ce formulaire avant le 20 Septembre 2026</p>
+                </div>
+                
+                <div class="rsvp-form-wrapper reveal-element">
+                    <div class="already-registered" id="alreadyRegistered">
+                        <h3>✓ Vous êtes déjà inscrit !</h3>
+                        <p>Cet appareil a déjà été utilisé pour une inscription.</p>
+                        <div class="registered-info" id="registeredInfo"></div>
+                        <button type="button" class="reset-registration-btn" onclick="resetRegistration()">Nouvelle inscription (admin)</button>
+                    </div>
+                    
+                    <form class="rsvp-form" id="rsvpForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Prénom <span class="required">*</span></label>
+                                <input type="text" class="form-input" name="prenom" id="prenom" placeholder="Votre prénom" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nom <span class="required">*</span></label>
+                                <input type="text" class="form-input" name="nom" id="nom" placeholder="Votre nom" required>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-methods">
+                            <h4>Comment vous contacter ?</h4>
+                            <p class="contact-note">Remplissez au moins un des trois champs ci-dessous</p>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Email <span class="optional">(optionnel)</span></label>
+                                    <input type="email" class="form-input" name="email" id="email" placeholder="votre@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Instagram <span class="optional">(optionnel)</span></label>
+                                    <input type="text" class="form-input" name="instagram" id="instagram" placeholder="@votre_compte">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Facebook <span class="optional">(optionnel)</span></label>
+                                <input type="text" class="form-input" name="facebook" id="facebook" placeholder="Votre nom Facebook ou lien de profil">
+                            </div>
+                        </div>
+                        
+                        <div class="guest-counter">
+                            <label class="form-label">Nombre d'invités</label>
+                            
+                            <div class="counter-row">
+                                <div class="counter-label">
+                                    <div class="counter-icon-wrapper">
+                                        <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
+                                    </div>
+                                    <span>Hommes</span>
+                                </div>
+                                <div class="counter-controls">
+                                    <button type="button" class="counter-btn" data-action="minus" data-target="hommes">−</button>
+                                    <span class="counter-value" id="count-hommes">0</span>
+                                    <button type="button" class="counter-btn" data-action="plus" data-target="hommes">+</button>
+                                </div>
+                            </div>
+                            
+                            <div class="counter-row">
+                                <div class="counter-label">
+                                    <div class="counter-icon-wrapper">
+                                        <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z" transform="rotate(180 12 12) translate(0 -2)"/></svg>
+                                    </div>
+                                    <span>Femmes</span>
+                                </div>
+                                <div class="counter-controls">
+                                    <button type="button" class="counter-btn" data-action="minus" data-target="femmes">−</button>
+                                    <span class="counter-value" id="count-femmes">0</span>
+                                    <button type="button" class="counter-btn" data-action="plus" data-target="femmes">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="total-guests">
+                            <p class="total-label">Nombre total d'invités</p>
+                            <p class="total-value" id="totalGuests">0</p>
+                            <p class="total-suffix">personne(s)</p>
+                        </div>
+                        
+                        <div class="no-children-notice">
+                            <div class="notice-icon-wrapper">
+                                <svg viewBox="0 0 24 24"><path d="M14 7h-4c-2.21 0-4 1.79-4 4 0 2.21 1.79 4 4 4h4c2.21 0 4-1.79 4-4 0-2.21-1.79-4-4-4zm-2 9c-2.66 0-5.33 1-5.33 3v2h10.67v-2c0-2-2.67-3-5.34-3zM12 2C9.5 2 7.33 3.17 6 5.12 6.88 4.44 8 4 9.33 4c2.13 0 3.96 1.16 4.93 2.88C14.7 5.89 15.79 5 17 5c.17 0 .33.02.5.05C16.17 3.11 14.26 2 12 2z"/></svg>
+                            </div>
+                            <div class="notice-content">
+                                <h4>Pas d'enfants</h4>
+                                <p>Cette cérémonie est réservée aux adultes. Nous vous prions de bien vouloir faire garder vos enfants pour cette occasion spéciale.</p>
+                            </div>
+                        </div>
+                        
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="noChildren" checked disabled>
+                            <span class="checkbox-label">J'ai bien noté que la cérémonie est sans enfants</span>
+                        </label>
+                        
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="confirmPresence" required>
+                            <span class="checkbox-label">Je confirme ma présence et celle de mes accompagnants <span class="required">*</span></span>
+                        </label>
+                        
+                        <div class="form-status" id="formStatus"></div>
+                        
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span>Confirmer ma présence</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer-section">
+            <p class="footer-message reveal-element">Nous serions profondément honorés de votre présence à nos côtés afin de partager ce merveilleux moment et de célébrer ensemble le début de cette belle aventure.</p>
+            <p class="footer-subtitle reveal-element">Votre présence sera notre plus beau cadeau.</p>
+            <p class="footer-quote reveal-element">Dans la lumière de l'amour, nous vous attendons pour écrire avec nous une page inoubliable de notre histoire.</p>
+            <div class="heart-container reveal-element">
+                <span class="heart">♥</span>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
