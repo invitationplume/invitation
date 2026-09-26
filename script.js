@@ -1,16 +1,9 @@
 // ============================================
-// CONFIGURATION - MODIFIEZ CES VALEURS
+// CONFIGURATION
 // ============================================
-
-// CHEMIN DE L'IMAGE DU SCEAU (remplacez par votre image)
 const SCEAU_IMAGE_PATH = "sceau.png";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xljdwvqn";
 
-// VOTRE EMAIL POUR RECEVOIR LES INSCRIPTIONS
-const ADMIN_EMAIL = "Wisfekirsem@gmail.com";
-
-// COORDONNEES DU LIEU
-// Latitude : 36.52632457978002° N
-// Longitude : 2.8112754423282333° E
 const LIEU_CONFIG = {
     lat: 36.52632457978002,
     lng: 2.8112754423282333,
@@ -20,7 +13,7 @@ const LIEU_CONFIG = {
 };
 
 // ============================================
-// INITIALISATION
+// INITIALISATION DU LIEU
 // ============================================
 function initLieuConfig() {
     document.getElementById('lieuNom').textContent = LIEU_CONFIG.nom;
@@ -33,12 +26,12 @@ function initLieuConfig() {
     document.getElementById('directionsLink').href = directionsUrl;
     
     const mapFrame = document.getElementById('mapFrame');
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d${LIEU_CONFIG.lng}!3d${LIEU_CONFIG.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${encodeURIComponent(LIEU_CONFIG.nom)}!5e0!3m2!1sfr!2sdz!4v1234567890123!5m2!1sfr!2sdz`;
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3279.1234567890123!2d${LIEU_CONFIG.lng}!3d${LIEU_CONFIG.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${encodeURIComponent(LIEU_CONFIG.nom)}!5e0!3m2!1sfr!2sdz!4v1234567890123!5m2!1sfr!2sdz`;
     mapFrame.src = mapUrl;
 }
 
 // ============================================
-// SECURITE : DETECTION APPAREIL UNIQUE
+// SECURITE
 // ============================================
 const STORAGE_KEY = 'wedding_device_fingerprint_v2';
 const REGISTRATION_DATA_KEY = 'wedding_registrations_v2';
@@ -133,7 +126,7 @@ function resetRegistration() {
 }
 
 // ============================================
-// CONFETTI AVEC DECROISSANCE
+// CONFETTI
 // ============================================
 class WeddingConfetti {
     constructor() {
@@ -180,26 +173,6 @@ class WeddingConfetti {
             particle.size = Math.random() * 15 + 8;
             this.particles.push(particle);
         }
-    }
-    
-    rainProgressive(duration = 10000) {
-        let elapsed = 0;
-        const interval = 100;
-        
-        const rainInterval = setInterval(() => {
-            elapsed += interval;
-            const progress = elapsed / duration;
-            const maxParticles = Math.floor(10 * Math.exp(-4 * progress));
-            const count = Math.max(0, maxParticles);
-            
-            for (let i = 0; i < count; i++) {
-                this.particles.push(this.createParticle());
-            }
-            
-            if (elapsed >= duration) {
-                clearInterval(rainInterval);
-            }
-        }, interval);
     }
     
     update() {
@@ -249,8 +222,150 @@ class WeddingConfetti {
     start() { this.update(); }
 }
 
+// ============================================
+// PÉTALES ROSES RÉALISTES
+// ============================================
+class FallingPetals {
+    constructor() {
+        this.canvas = document.getElementById('petalsCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.petals = [];
+        this.active = false;
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+    }
+    
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+    
+    createPetal() {
+        const colors = [
+            '#f8e1e4', '#f5d0d5', '#e8c4c4', '#f0e6d2', 
+            '#fff5e6', '#ffd1dc', '#f4e4e4', '#e6d7c3'
+        ];
+        
+        const startX = Math.random() * this.canvas.width;
+        
+        return {
+            x: startX,
+            y: -60,
+            size: Math.random() * 12 + 8,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rotation: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.06,
+            vy: Math.random() * 0.8 + 0.4,
+            vx: (Math.random() - 0.5) * 1.2,
+            swayAmplitude: Math.random() * 80 + 40,
+            swayFrequency: Math.random() * 0.015 + 0.005,
+            swayOffset: Math.random() * Math.PI * 2,
+            opacity: Math.random() * 0.3 + 0.7,
+            driftX: -Math.random() * 0.6 - 0.2,
+            type: Math.floor(Math.random() * 3)
+        };
+    }
+    
+    drawPetal(ctx, p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.globalAlpha = p.opacity;
+        
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size);
+        gradient.addColorStop(0, p.color);
+        gradient.addColorStop(0.7, p.color);
+        gradient.addColorStop(1, this.darkenColor(p.color, 0.9));
+        ctx.fillStyle = gradient;
+        
+        ctx.beginPath();
+        
+        if (p.type === 0) {
+            ctx.moveTo(0, -p.size);
+            ctx.bezierCurveTo(p.size * 0.6, -p.size * 0.3, p.size * 0.6, p.size * 0.5, 0, p.size);
+            ctx.bezierCurveTo(-p.size * 0.6, p.size * 0.5, -p.size * 0.6, -p.size * 0.3, 0, -p.size);
+        } else if (p.type === 1) {
+            ctx.moveTo(0, -p.size * 0.8);
+            ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.4, p.size * 0.8, p.size * 0.6, 0, p.size * 0.9);
+            ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.6, -p.size * 0.8, -p.size * 0.4, 0, -p.size * 0.8);
+        } else {
+            ctx.moveTo(0, -p.size * 1.2);
+            ctx.bezierCurveTo(p.size * 0.4, -p.size * 0.2, p.size * 0.3, p.size * 0.6, 0, p.size);
+            ctx.bezierCurveTo(-p.size * 0.3, p.size * 0.6, -p.size * 0.4, -p.size * 0.2, 0, -p.size * 1.2);
+        }
+        
+        ctx.fill();
+        
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(0, -p.size * 0.8);
+        ctx.lineTo(0, p.size * 0.8);
+        ctx.stroke();
+        
+        ctx.fillStyle = 'rgba(255,255,255,0.3)';
+        ctx.beginPath();
+        ctx.ellipse(-p.size * 0.2, -p.size * 0.3, p.size * 0.15, p.size * 0.3, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.restore();
+    }
+    
+    darkenColor(color, factor) {
+        const hex = color.replace('#', '');
+        const r = Math.floor(parseInt(hex.substr(0, 2), 16) * factor);
+        const g = Math.floor(parseInt(hex.substr(2, 2), 16) * factor);
+        const b = Math.floor(parseInt(hex.substr(4, 2), 16) * factor);
+        return `rgb(${r},${g},${b})`;
+    }
+    
+    start() {
+        this.active = true;
+        let petalCount = 0;
+        const maxPetals = 50;
+        
+        const addPetal = () => {
+            if (!this.active) return;
+            if (petalCount < maxPetals) {
+                this.petals.push(this.createPetal());
+                petalCount++;
+                setTimeout(addPetal, Math.random() * 400 + 200);
+            }
+        };
+        
+        addPetal();
+        this.animate();
+        
+        setTimeout(() => {
+            this.active = false;
+        }, 20000);
+    }
+    
+    animate() {
+        if (!this.active && this.petals.length === 0) return;
+        
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.petals = this.petals.filter(p => {
+            const sway = Math.sin(Date.now() * p.swayFrequency + p.swayOffset) * 0.6;
+            const time = Date.now() * 0.001;
+            
+            p.rotation += p.rotationSpeed + Math.sin(time + p.swayOffset) * 0.002;
+            p.y += p.vy;
+            p.x += p.vx + p.driftX + sway;
+            
+            this.drawPetal(this.ctx, p);
+            
+            return p.y < this.canvas.height + 80 && p.x > -100 && p.x < this.canvas.width + 100;
+        });
+        
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
 const confetti = new WeddingConfetti();
 confetti.start();
+const fallingPetals = new FallingPetals();
 
 function createWaxParticles() {
     const container = document.getElementById('waxParticles');
@@ -281,13 +396,17 @@ function createWaxParticles() {
 }
 
 // ============================================
-// ANIMATION ENVELOPPE
+// ANIMATION ENVELOPPE - SÉQUENCE CORRIGÉE
+// ============================================
+// Ordre : 1. Haut, 2. Bas, 3. Gauche+Droite simultanés
 // ============================================
 function initEnvelopeAnimation() {
     const envelopeStage = document.getElementById('envelopeStage');
     const waxSeal = document.getElementById('waxSeal');
     const envelopeFlap = document.getElementById('envelopeFlap');
     const envelopeFoldBottom = document.getElementById('envelopeFoldBottom');
+    const envelopeFoldLeft = document.getElementById('envelopeFoldLeft');
+    const envelopeFoldRight = document.getElementById('envelopeFoldRight');
     const mainSite = document.getElementById('mainSite');
 
     waxSeal.addEventListener('click', handleOpenEnvelope);
@@ -303,28 +422,48 @@ function initEnvelopeAnimation() {
         const rect = scene.getBoundingClientRect();
         confetti.burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 100);
         
+        // Démarrer les pétales
         setTimeout(() => {
+            fallingPetals.start();
+        }, 400);
+        
+        // ==========================================
+        // SÉQUENCE CORRIGÉE :
+        // 1. Rabat HAUT (Top) en premier
+        // 2. Rabat BAS (Bottom) en deuxième  
+        // 3. Rabats GAUCHE + DROITE simultanément en troisième
+        // ==========================================
+        setTimeout(() => {
+            // ÉTAPE 1 : Ouverture du rabat HAUT
             envelopeFlap.classList.add('opening');
             
             setTimeout(() => {
+                // ÉTAPE 2 : Ouverture du rabat BAS
                 envelopeFoldBottom.classList.add('opening');
                 
                 setTimeout(() => {
-                    envelopeStage.style.opacity = '0';
-                    envelopeStage.style.visibility = 'hidden';
+                    // ÉTAPE 3 : Ouverture simultanée des rabats GAUCHE et DROITE
+                    envelopeFoldLeft.classList.add('opening');
+                    envelopeFoldRight.classList.add('opening');
                     
+                    // Disparition de l'enveloppe après ouverture complète
                     setTimeout(() => {
-                        mainSite.classList.add('revealed');
-                        initScrollAnimations();
+                        envelopeStage.style.opacity = '0';
+                        envelopeStage.style.visibility = 'hidden';
                         
-                        const existing = isDeviceAlreadyRegistered();
-                        if (existing) {
-                            showAlreadyRegistered(existing);
-                        }
-                    }, 500);
-                }, 2000);
-            }, 600);
-        }, 600);
+                        setTimeout(() => {
+                            mainSite.classList.add('revealed');
+                            initScrollAnimations();
+                            
+                            const existing = isDeviceAlreadyRegistered();
+                            if (existing) {
+                                showAlreadyRegistered(existing);
+                            }
+                        }, 300);
+                    }, 1400);
+                }, 400);
+            }, 400);
+        }, 400);
     }
 }
 
@@ -363,6 +502,7 @@ function updateCounter(type, delta) {
     if (newValue >= 0 && newValue <= 10) {
         guestCounts[type] = newValue;
         document.getElementById(`count-${type}`).textContent = newValue;
+        document.getElementById(`input${type.charAt(0).toUpperCase() + type.slice(1)}`).value = newValue;
         updateTotal();
         updateButtonStates();
     }
@@ -371,6 +511,7 @@ function updateCounter(type, delta) {
 function updateTotal() {
     const total = guestCounts.hommes + guestCounts.femmes;
     document.getElementById('totalGuests').textContent = total;
+    document.getElementById('inputTotal').value = total;
 }
 
 function updateButtonStates() {
@@ -446,44 +587,25 @@ document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     submitBtn.innerHTML = '<span>Envoi en cours...</span>';
     
     try {
-        registerDevice(data);
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            body: new FormData(e.target),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
         
-        const contactMethods = [];
-        if (data.email) contactMethods.push(`📧 Email: ${data.email}`);
-        if (data.instagram) contactMethods.push(`📷 Instagram: ${data.instagram}`);
-        if (data.facebook) contactMethods.push(`👤 Facebook: ${data.facebook}`);
-        
-        const subject = `🎉 Nouvelle inscription - Mariage Wissem & Mousaab | ${prenom} ${nom}`;
-        const body = `Bonjour,
-
-Une nouvelle inscription vient d'être reçue :
-
-👤 INVITÉ
-   Prénom : ${prenom}
-   Nom : ${nom}
-
-📱 MOYENS DE CONTACT
-${contactMethods.join('\n')}
-
-👥 PARTICIPANTS
-   Hommes : ${data.hommes}
-   Femmes : ${data.femmes}
-   TOTAL : ${data.total} personne(s)
-
-📅 Date d'inscription : ${data.date}
-
----
-Cet email a été généré automatiquement depuis le site d'invitation.`;
-        
-        const mailtoLink = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.open(mailtoLink, '_blank');
-        
-        showStatus('Votre confirmation a été enregistrée avec succès !', 'success');
-        confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 150);
-        
-        setTimeout(() => {
-            showAlreadyRegistered({ ...data, timestamp: new Date().toISOString() });
-        }, 2000);
+        if (response.ok) {
+            registerDevice(data);
+            showStatus('Votre inscription a été envoyée avec succès !', 'success');
+            confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 150);
+            
+            setTimeout(() => {
+                showAlreadyRegistered({ ...data, timestamp: new Date().toISOString() });
+            }, 2000);
+        } else {
+            throw new Error('Erreur lors de l\'envoi');
+        }
         
     } catch (error) {
         console.error('Erreur:', error);
@@ -492,7 +614,7 @@ Cet email a été généré automatiquement depuis le site d'invitation.`;
         setTimeout(() => {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalContent;
-        }, 2000);
+        }, 3000);
     }
 });
 
@@ -515,5 +637,8 @@ document.addEventListener('DOMContentLoaded', () => {
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => { confetti.resize(); }, 250);
+    resizeTimeout = setTimeout(() => { 
+        confetti.resize(); 
+        fallingPetals.resize();
+    }, 250);
 });

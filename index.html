@@ -9,14 +9,15 @@
 </head>
 <body>
     <canvas id="confettiCanvas"></canvas>
+    <canvas id="petalsCanvas"></canvas>
 
     <div class="envelope-stage" id="envelopeStage">
         <div class="envelope-scene" id="envelopeScene">
             <div class="envelope-wrapper">
-                <div class="envelope-body"></div>
+                <div class="envelope-body-transparent"></div>
                 
-                <div class="envelope-fold-left"></div>
-                <div class="envelope-fold-right"></div>
+                <div class="envelope-fold-left" id="envelopeFoldLeft"></div>
+                <div class="envelope-fold-right" id="envelopeFoldRight"></div>
                 <div class="envelope-fold-bottom" id="envelopeFoldBottom"></div>
                 <div class="envelope-flap" id="envelopeFlap"></div>
                 
@@ -52,7 +53,7 @@
         </div>
     </div>
 
-    <main class="main-site" id="mainSite">
+    <main class="main-site visible-behind" id="mainSite">
         <section class="hero" id="accueil">
             <svg class="floral-deco floral-tl" viewBox="0 0 200 200" fill="none">
                 <path d="M20 180 Q50 130 100 100 Q150 70 180 20" stroke="#c9a962" stroke-width="1.5" fill="none" opacity="0.6"/>
@@ -149,7 +150,7 @@
                             loading="lazy" 
                             allowfullscreen 
                             referrerpolicy="no-referrer-when-downgrade"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.1234567890123!2d2.8300!3d36.4800!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDI4JzQ4LjAiTiAywrA0OSc0OC4wIkU!5e0!3m2!1sfr!2sdz!4v1234567890123!5m2!1sfr!2sdz">
+                            src="">
                         </iframe>
                         <div class="heart-map-overlay"></div>
                         <div class="map-marker">
@@ -187,7 +188,9 @@
                         <button type="button" class="reset-registration-btn" onclick="resetRegistration()">Nouvelle inscription (admin)</button>
                     </div>
                     
-                    <form class="rsvp-form" id="rsvpForm">
+                    <form class="rsvp-form" id="rsvpForm" https://formspree.io/f/xljdwvqn" method="POST">
+                        <input type="hidden" name="_to" value="Wisfekirsem@gmail.com">
+                        
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Prénom <span class="required">*</span></label>
@@ -223,10 +226,13 @@
                         <div class="guest-counter">
                             <label class="form-label">Nombre d'invités</label>
                             
+                            <!-- Silhouette Homme -->
                             <div class="counter-row">
                                 <div class="counter-label">
                                     <div class="counter-icon-wrapper">
-                                        <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 6c2.21 0 4 1.79 4 4v6h-2.5v-5h-3v5H8v-6c0-2.21 1.79-4 4-4z"/>
+                                        </svg>
                                     </div>
                                     <span>Hommes</span>
                                 </div>
@@ -237,10 +243,13 @@
                                 </div>
                             </div>
                             
+                            <!-- Silhouette Femme -->
                             <div class="counter-row">
                                 <div class="counter-label">
                                     <div class="counter-icon-wrapper">
-                                        <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z" transform="rotate(180 12 12) translate(0 -2)"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 6c1.5 0 2.8.8 3.3 2l1.7 8h-2.5l-.5-6h-1l-1.5 6h-3l-1.5-6h-1l-.5 6H5l1.7-8c.5-1.2 1.8-2 3.3-2z"/>
+                                        </svg>
                                     </div>
                                     <span>Femmes</span>
                                 </div>
@@ -251,6 +260,10 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <input type="hidden" name="nombre_hommes" id="inputHommes" value="0">
+                        <input type="hidden" name="nombre_femmes" id="inputFemmes" value="0">
+                        <input type="hidden" name="nombre_total" id="inputTotal" value="0">
                         
                         <div class="total-guests">
                             <p class="total-label">Nombre total d'invités</p>
